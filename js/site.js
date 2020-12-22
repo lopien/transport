@@ -92,8 +92,8 @@ Site.prototype = {
 
             // If sum of purchasers and sources are not equal, error
             if ( context.$matrixPurchasersSum.text() !== context.$matrixSourcesSum.text() ) {
-                context._showDialog( 'Ташаци',
-                    'Сумма источников и потребителей не совпадает, твоя мама!',
+                context._showDialog( 'Ошибка',
+                    'Сумма источников и потребителей не совпадает',
                     function ( e ) {
                         context.$matrixSums.addClass( 'element-error' );
                     },
