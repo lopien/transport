@@ -77,8 +77,8 @@ Site.prototype = {
                 return this.value === '';
             } );
             if ( emptyInputs.length > 0 ) {
-                context._showDialog( 'Ташаци',
-                    'Ты не заполнила все поля, мама!',
+                context._showDialog( 'Ошибка',
+                    'Ты не заполнил все поля',
                     function ( e ) {
                         emptyInputs.addClass( 'element-error' );
                     },
@@ -242,8 +242,8 @@ Site.prototype = {
                 .append( this._buildTitle( 'Журнал программы' ) )
                 .append( this._buildLog( ) );
         } else {
-            this._showDialog( 'Ташаци, ташаци',
-                'Алгоритм выдал внутреннюю ошибку из-за неверных данных, мама твоя!',
+            this._showDialog( 'Ошибка',
+                'Алгоритм выдал внутреннюю ошибку из-за неверных данных',
                 null,
                 function ( e ) {
                     context.$buttonEdit.click();
