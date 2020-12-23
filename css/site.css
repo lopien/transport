@@ -111,7 +111,16 @@ span.element-error {
     background-color: #EEEEEE;
 
 }
-
+.control-group{
+    width: 250px;
+}
+.form-actions{
+    background-color: #fff;
+}
+.well{
+    border: none;
+    background-color: #fff;
+}
 @keyframes error {
     0% {
     box-shadow: 0px 0px 0.2em 0.05em rgba(200, 0, 0, 0);
