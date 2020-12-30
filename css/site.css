@@ -32,7 +32,7 @@ article {
 #look-for {
     display: none;
 }
-input.element-error,
+/* input.element-error,
 span.element-error {
     animation-name: error;
     -moz-animation-name: error;
@@ -50,7 +50,7 @@ span.element-error {
     -o-animation-duration: 500ms;
     -o-animation-iteration-count: infinite;
     -o-animation-direction: alternate;
-}
+} */
 .ui-spinner-input,
 .ui-spinner-input:focus,
 .ui-spinner-input:hover {
@@ -62,7 +62,9 @@ span.element-error {
 
 .matrix-holder {
     overflow: auto;
-    text-align: center;
+    text-align: left;
+    margin-left: -20px;
+    margin-top: -20px;
 }
 .matrix-container {
     display: inline-block;
