@@ -210,8 +210,8 @@ Site.prototype = {
             var loadedMatrixes = matrix.getLoadedMatrixes();
 
             this.$result
-                .append( this._buildTitle( 'Последовательность загрузки' ) )
-                .append( this._buildMatrixQueue( matrix ) );
+                // .append( this._buildTitle( 'Последовательность загрузки' ) )
+                // .append( this._buildMatrixQueue( matrix ) );
 
 
             for (var k = 0; k < loadedMatrixes.length - 1; k++) {

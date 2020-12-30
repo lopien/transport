@@ -1,5 +1,5 @@
 /**
- * New matrix object
+ * Новый объект матрицы
  * @public 
  * @param {Array} sources
  * @param {Array} purchasers
@@ -38,11 +38,11 @@ function Matrix ( sources, purchasers ) {
     var _result;
 
     /**
-     * Generates empty matrix
+     * Создает пустую матрицу
      * @private
      * @param {Number} m rows
      * @param {Number} n columns
-     * @param {Boolean} useZeros if true, fill with zeroes instead of nulls
+     * @param {Boolean} useZeros если true, заполнить 0 в nulls
      * @returns {Array}
      */
     function _generateMatrix ( m, n, useZeros ) {
@@ -57,19 +57,19 @@ function Matrix ( sources, purchasers ) {
         return matrix;
     }
     /**
-     * Get queue of elements of the matrix sorted ascending by value
+     * Получить очередь элементов матрицы, отсортированных по возрастанию по значению
      * @private
      * @returns {Array}
      */
     function _getQueue () {
-        // Previous checked minimum value
+        // Предыдущее проверенное минимальное значение
         var previousMin = -1;
 
-        // Number of elements in the matrix
+        // Количество элементов в матрице
         var numberElements = _sources.length * _purchasers.length;
 
         while ( _queue.length < numberElements ) {
-            // Min value assigns first element
+            // Минимальное значение присваивает первый элемент
             var min = {
                 i: 0,
                 j: 0,
@@ -77,15 +77,15 @@ function Matrix ( sources, purchasers ) {
             };
             var queueEqualValues = [];
             for (var i = 0; i < _sources.length; i++) {
-                // Queue of elements in current matrix row
+                // Очередь элементов в текущей строке матрицы
                 var queueRow = [];
                 for (var j = 0; j < _purchasers.length; j++) {
                     var value = _matrix[i][j];
-                    // If value is greater than previously checked minimum value
+                    // Если значение больше, чем ранее проверенное минимальное значение
                     if ( value > previousMin ) {
-                        // If value is lower than previously found minimum value, update minimum value
+                        // Если значение ниже, чем ранее найденное минимальное значение, обновите минимальное значение
                         if ( value < min.value || min.value < 0 ) {
-                            // TODO review this code: gettings same queueEqualValues multiple times
+                            // TODO просмотрите этот код: получение одного и того же queueEqualValues несколько раз
                             min = {
                                 i: i,
                                 j: j,
@@ -94,7 +94,7 @@ function Matrix ( sources, purchasers ) {
                             queueEqualValues = [];
                             queueRow = [min];
                         }
-                        // If value is equal to previously found minimum value, add value to the row's queue
+                        // Если значение равно ранее найденному минимальному значению, добавить значение в очередь строки
                         else if ( value === min.value
                             && (queueEqualValues.length || queueRow.length)
                             ) {
@@ -107,7 +107,7 @@ function Matrix ( sources, purchasers ) {
                     }
                 }
 
-                // If there are multiple elements with same value in single row
+                // Если в одной строке есть несколько элементов с одинаковым значением
                 if ( queueRow.length > 1 ) {
                     queueRow = _sortQueueMembers( queueRow );
                 }
@@ -121,7 +121,7 @@ function Matrix ( sources, purchasers ) {
         return true;
     }
     /**
-     * Sort properly queue members from same row, from highest potencial to lowest
+     * Правильно отсортируйте участников очереди из одной строки, от наивысшего потенциала к наименьшему
      * @param {Array} queue
      * @returns {Array}
      */
@@ -139,7 +139,7 @@ function Matrix ( sources, purchasers ) {
         return queue;
     }
     /**
-     * Load matrix
+     * Матрица нагрузки
      * @returns {unresolved}
      */
     function _loadMatrix () {
@@ -147,17 +147,17 @@ function Matrix ( sources, purchasers ) {
         var purchasers = _purchasers.clone();
         var queue = _queue.clone();
         var loadedMatrix = _generateMatrix( sources.length, purchasers.length, true );
-        // While queue contains elements
+        // Пока очередь содержит элементы
         while ( queue.length > 0 ) {
-            // Shift first element of the queue
+            // Сдвинуть первый элемент очереди
             var element = queue.shift();
-            // If the value of the source is bigger, then load with the full value of the purchaser
+            // Если стоимость источника больше, то загружайте полную стоимость покупателя.
             if ( sources[element.i] >= purchasers[element.j] ) {
                 loadedMatrix[element.i][element.j] = purchasers[element.j];
                 sources[element.i] -= purchasers[element.j];
                 purchasers[element.j] = 0;
             }
-            // If the value of the purchaser is bigger, then load with the full value of the source
+            // Если стоимость покупателя больше, то загрузите полную стоимость источника
             else {
                 loadedMatrix[element.i][element.j] = sources[element.i];
                 purchasers[element.j] -= sources[element.i];
@@ -167,7 +167,7 @@ function Matrix ( sources, purchasers ) {
         return loadedMatrix;
     }
     /**
-     * Get loops from matrix
+     * Получить петли из матрицы
      * @param {Array} loadedMatrix
      * @returns {Array|Boolean}
      */
@@ -181,10 +181,10 @@ function Matrix ( sources, purchasers ) {
 
         for (var i = 0; i < _sources.length; i++) {
             for (var j = 0; j < _purchasers.length; j++) {
-                // If elements is not loaded, find it's loop
+                // Если элементы не загружены, найдите его цикл
                 if ( loadedMatrix[i][j] === 0 ) {
                     var elements = _findLoopOfBase( loadedMatrix, i, j );
-                    // Add it to other loops
+                    // Добавьте его в другие петли
                     if ( elements !== false ) {
                         var value = _getLoopValue( elements );
                         loops.push( {
@@ -215,7 +215,7 @@ function Matrix ( sources, purchasers ) {
         };
     }
     /**
-     * Find loop around given matrix and given element of the matrix
+     * Найдите цикл вокруг заданной матрицы и заданного элемента матрицы
      * @param {Array} matrix
      * @param {Number} baseI
      * @param {Number} baseJ
@@ -226,15 +226,15 @@ function Matrix ( sources, purchasers ) {
         var n = matrix[0].length;
 
         /**
-         * Stack object
-         * @class Inline declaration of stack object
+         * Объект стека
+         * @class Встроенное объявление объекта стека
          * @return {Stack}
          */
         var stack = function () {
-            // Stack container
+            // Контейнер для стека
             var stack = [];
             /**
-             * Checks if id is already used 
+             * Проверяет, используется ли id уже
              * @public
              * @param {Number} id
              * @returns {Boolean}
@@ -248,7 +248,7 @@ function Matrix ( sources, purchasers ) {
                 return false;
             };
             /**
-             * Adds to the end of the stack and generates unique id
+             * Добавляет в конец стека и генерирует уникальный идентификатор
              * @public
              * @param {Object} object
              * @returns {Void}
@@ -258,7 +258,7 @@ function Matrix ( sources, purchasers ) {
                 stack[stack.length] = object;
             };
             /**
-             * Converts stack to array
+             * Преобразует стек в массив
              * @public
              * @returns {Array}
              */
@@ -274,29 +274,29 @@ function Matrix ( sources, purchasers ) {
             return stack;
         }();
         /**
-         * Recursive function to find loop's edges
-         * @param {Number} startI `i` coordinate of the start element
-         * @param {Number} startJ `j` coordinate of the start element
-         * @param {Boolean} searchVertical force it to search vertically or horizontally
-         * @return {Boolean} True on success
+         * Рекурсивная функция для поиска краев цикла
+         * @param {Number} startI `i` координата начального элемента
+         * @param {Number} startJ `j` координата начального элемента
+         * @param {Boolean} searchVertical заставить его искать по вертикали или горизонтали
+         * @return {Boolean} Верно при успехе
          */
         function find ( startI, startJ, searchVertical ) {
-            // Push the value to the stack
+            // Помещаем значение в стек
             stack.push( {
                 i: startI,
                 j: startJ,
                 value: matrix[startI][startJ]
             } );
-            // Search in vertical direction only if searchVertical is set to true or undefined
+            // Искать в вертикальном направлении, только если для searchVertical задано значение true или undefined
             if ( searchVertical === true || searchVertical !== false ) {
-                // If we are at the same column as base value, we are ready
+                // Если мы находимся в том же столбце, что и базовое значение, мы готовы
                 if ( baseJ === startJ && baseI !== startI ) {
                     return true;
                 }
 
-                // Search to top
+                // Искать наверх
                 for (var k = startI - 1; k >= 0; k--) {
-                    // If matrix element is positive and isn't used alredy
+                    // Если матричный элемент положительный и еще не используется
                     if ( matrix[k][startJ] !== 0
                         && !stack.containsId( cantorPairing( k, startJ ) )
                         ) {
@@ -306,9 +306,9 @@ function Matrix ( sources, purchasers ) {
                     }
                 }
 
-                // Search to bottom
+                // Искать вниз
                 for (var k = startI + 1; k < m; k++) {
-                    // If matrix element is positive and isn't used alredy
+                    // Если матричный элемент положительный и еще не используется
                     if ( matrix[k][startJ] !== 0
                         && !stack.containsId( cantorPairing( k, startJ ) )
                         ) {
@@ -319,16 +319,16 @@ function Matrix ( sources, purchasers ) {
                 }
             }
 
-            // Search in horizontal direction only if searchVertical is set to false or undefined
+            // Искать в горизонтальном направлении, только если для searchVertical задано значение false или undefined
             if ( searchVertical === false || typeof searchVertical === 'undefined' ) {
-                // If we are at the same row as the starting value, we are ready
+                // Если мы находимся в той же строке, что и начальное значение, мы готовы
                 if ( baseI === startI && baseJ !== startJ ) {
                     return true;
                 }
 
-                // Search to left
+                // Искать слева
                 for (var l = startJ - 1; l >= 0; l--) {
-                    // If matrix element is positive and isn't used alredy
+                    // Если матричный элемент положительный и еще не используется
                     if ( matrix[startI][l] !== 0
                         && !stack.containsId( cantorPairing( startI, l ) )
                         ) {
@@ -337,9 +337,9 @@ function Matrix ( sources, purchasers ) {
                         }
                     }
                 }
-                // Search to right
+                // Искать вправо
                 for (var l = startJ + 1; l < n; l++) {
-                    // If matrix element is positive and isn't used alredy
+                    // Если матричный элемент положительный и еще не используется
                     if ( matrix[startI][l] !== 0
                         && !stack.containsId( cantorPairing( startI, l ) )
                         ) {
@@ -350,7 +350,7 @@ function Matrix ( sources, purchasers ) {
                 }
             }
 
-            // If no value is returned, pop the last value from stack and return false
+            // Если значение не возвращается, извлечь последнее значение из стека и вернуть false
             stack.pop();
             return false;
         }
@@ -378,7 +378,7 @@ function Matrix ( sources, purchasers ) {
         }
 
         for (var k = 0; k < elements.length; k++) {
-            // Reload matrix
+            // Перезагрузить матрицу
             reloadedMatrix[elements[k].i][elements[k].j] += thetaMin * ((k % 2 === 0) ? 1 : -1);
         }
 
@@ -389,7 +389,7 @@ function Matrix ( sources, purchasers ) {
     }
 
     /**
-     * Get queue elements how matrix was first loaded
+     * Получить элементы очереди, как матрица была сначала загружена
      * @public
      * @returns {Array}
      */
@@ -397,7 +397,7 @@ function Matrix ( sources, purchasers ) {
         return _queue;
     };
     /**
-     * Get value of element
+     * Получить значение элемента
      * @public
      * @param {Number} i
      * @param {Number} j
@@ -407,7 +407,7 @@ function Matrix ( sources, purchasers ) {
         return _matrix[i][j];
     };
     /**
-     * Get result of matrix
+     * Получить результат матрицы
      * @public
      * @returns {Number}
      */
@@ -427,7 +427,7 @@ function Matrix ( sources, purchasers ) {
         return _purchasers;
     };
     /**
-     * Set value to element
+     * Установить значение для элемента
      * @public
      * @param {Numeric} i
      * @param {Numeric} j
@@ -438,7 +438,7 @@ function Matrix ( sources, purchasers ) {
         _matrix[i][j] = value;
     };
     /**
-     * Get array of loaded matrixes
+     * Получить массив загруженных матриц
      * @public
      * @returns {unresolved}
      */
@@ -446,7 +446,7 @@ function Matrix ( sources, purchasers ) {
         return _loadedMatrixes;
     };
     /**
-     * Solves the matrix, true on success
+     * Решает матрицу, верно в случае успеха
      * @public
      * @returns {Boolean}
      */
@@ -473,7 +473,7 @@ function Matrix ( sources, purchasers ) {
             loadedMatrix = loadedMatrixData.reloadedMatrix;
         } while ( _loadedMatrixes[_loadedMatrixes.length - 1].hasBeenReloaded )
 
-        // Last-but-one loaded matrix
+        // Предпоследняя загруженная матрица
         if ( _loadedMatrixes.length > 1 ) {
             var lastButOne = _loadedMatrixes[_loadedMatrixes.length - 2];
             var lastButOnePositiveLoop = lastButOne.loops[lastButOne.positiveLoopIndex];
@@ -486,7 +486,7 @@ function Matrix ( sources, purchasers ) {
     };
 
     /**
-     * @deprecated TODO Delete this
+     * @deprecated TODO Удалить 
      * @param {type} matrix
      * @returns {undefined}
      */
